@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Regisztráció')}"></head>
+<body>
+<nav th:replace="~{fragments :: menu('register')}"></nav>
+<main class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <h2 class="oldal-cim text-center"><i class="bi bi-person-plus"></i> Regisztráció</h2>
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}">Hiba</div>
+            <div class="card shadow-sm"><div class="card-body">
+                <form th:action="@{/register}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Felhasználónév</label>
+                        <input type="text" name="username" class="form-control" th:value="${username}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Jelszó</label>
+                        <input type="password" name="password" class="form-control" required>
+                        <div class="form-text">Legalább 6 karakter.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Jelszó még egyszer</label>
+                        <input type="password" name="password2" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Regisztráció</button>
+                </form>
+            </div></div>
+            <p class="text-center mt-3">Van már fiókod? <a th:href="@{/login}">Jelentkezz be!</a></p>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments :: lablec}"></footer>
+</body>
+</html>
