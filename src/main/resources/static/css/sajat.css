@@ -1,0 +1,23 @@
+/* Saját kiegészítések a Bootswatch United témához */
+html, body { height: 100%; }
+body { display: flex; flex-direction: column; background: #fdf8f3; }
+main { flex: 1 0 auto; }
+
+.hero {
+    background:
+        radial-gradient(circle at 85% 30%, rgba(255, 196, 0, .35) 0, transparent 40%),
+        linear-gradient(135deg, #b22222 0%, #e95420 60%, #f39c12 100%);
+    color: #fff;
+    padding: 5rem 0 4rem;
+}
+.hero h1 { font-weight: 800; letter-spacing: -.5px; }
+.hero .nagy-pizza { font-size: 7rem; line-height: 1; filter: drop-shadow(0 .5rem .75rem rgba(0,0,0,.3)); }
+
+.stat-szam { font-size: 2.4rem; font-weight: 800; color: #e95420; }
+.kartya-ikon { font-size: 2rem; color: #e95420; }
+.funkcio-kartya { transition: transform .15s, box-shadow .15s; }
+.funkcio-kartya:hover { transform: translateY(-4px); box-shadow: 0 .5rem 1rem rgba(0,0,0,.12); }
+
+.oldal-cim { margin: 2rem 0 1.5rem; }
+.ar-cimke { font-weight: 700; color: #b22222; }
+pre.kod { background: #2b2b2b; color: #f8f8f2; padding: 1rem; border-radius: .5rem; white-space: pre-wrap; }

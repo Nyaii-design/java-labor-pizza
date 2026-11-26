@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments :: head('Főoldal')}"></head>
+<body>
+<nav th:replace="~{fragments :: menu('fooldal')}"></nav>
+<main>
+    <section class="hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="display-4">Net Pizzéria</h1>
+                    <p class="lead">Éjjel-nappal nyitva, óriási választékkal. Nálunk nem lehet beülni: a rendelést SMS-ben adod le, mi pedig forrón kiszállítjuk.</p>
+                    <p class="mb-4">Ez az oldal a pizzéria adatbázisát mutatja be: pizzák, árkategóriák és több mint húszezer rendelés.</p>
+                    <a th:href="@{/adatbazis}" class="btn btn-light btn-lg me-2"><i class="bi bi-list-ul"></i> Pizzakínálat</a>
+                    <a th:href="@{/diagram}" class="btn btn-outline-light btn-lg"><i class="bi bi-bar-chart"></i> Statisztikák</a>
+                </div>
+                <div class="col-lg-4 text-center d-none d-lg-block">
+                    <div class="nagy-pizza">🍕</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="row g-4 text-center" style="margin-top: -2.5rem;">
+            <div class="col-md-4"><div class="card shadow-sm"><div class="card-body">
+                <div class="stat-szam" th:text="${pizzaSzam}">74</div><div>féle pizza</div>
+            </div></div></div>
+            <div class="col-md-4"><div class="card shadow-sm"><div class="card-body">
+                <div class="stat-szam" th:text="${kategoriaSzam}">4</div><div>árkategória</div>
+            </div></div></div>
+            <div class="col-md-4"><div class="card shadow-sm"><div class="card-body">
+                <div class="stat-szam" th:text="${#numbers.formatInteger(rendelesSzam, 1, 'WHITESPACE')}">21799</div><div>teljesített rendelés</div>
+            </div></div></div>
+        </div>
+
+        <h2 class="text-center mt-5 mb-4">Árkategóriáink</h2>
+        <div class="row g-4">
+            <div class="col-sm-6 col-lg-3" th:each="k : ${kategoriak}">
+                <div class="card h-100 text-center funkcio-kartya"><div class="card-body">
+                    <div class="kartya-ikon"><i class="bi bi-award"></i></div>
+                    <h5 class="card-title text-capitalize mt-2" th:text="${k.nev}">király</h5>
+                    <p class="ar-cimke fs-4 mb-0" th:text="${k.ar} + ' Ft'">1250 Ft</p>
+                </div></div>
+            </div>
+        </div>
+
+        <h2 class="text-center mt-5 mb-4">Mit találsz az oldalon?</h2>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3"><a th:href="@{/adatbazis}" class="text-reset text-decoration-none">
+                <div class="card h-100 funkcio-kartya"><div class="card-body">
+                    <i class="bi bi-database kartya-ikon"></i><h5 class="mt-2">Adatbázis</h5>
+                    <p class="mb-0">A teljes kínálat kategóriánként, árakkal és a legutóbbi rendelésekkel.</p>
+                </div></div></a></div>
+            <div class="col-md-6 col-lg-3"><a th:href="@{/diagram}" class="text-reset text-decoration-none">
+                <div class="card h-100 funkcio-kartya"><div class="card-body">
+                    <i class="bi bi-pie-chart kartya-ikon"></i><h5 class="mt-2">Diagramok</h5>
+                    <p class="mb-0">A legnépszerűbb pizzák, a kategóriák aránya és a havi forgalom.</p>
+                </div></div></a></div>
+            <div class="col-md-6 col-lg-3"><a th:href="@{/kapcsolat}" class="text-reset text-decoration-none">
+                <div class="card h-100 funkcio-kartya"><div class="card-body">
+                    <i class="bi bi-envelope kartya-ikon"></i><h5 class="mt-2">Kapcsolat</h5>
+                    <p class="mb-0">Írj nekünk: kérdés, dicséret vagy panasz, mindent elolvasunk.</p>
+                </div></div></a></div>
+            <div class="col-md-6 col-lg-3"><a th:href="@{/rest}" class="text-reset text-decoration-none">
+                <div class="card h-100 funkcio-kartya"><div class="card-body">
+                    <i class="bi bi-braces kartya-ikon"></i><h5 class="mt-2">REST API</h5>
+                    <p class="mb-0">A pizzák adatai JSON formában, más alkalmazások számára.</p>
+                </div></div></a></div>
+        </div>
+
+        <div class="alert alert-light border mt-5" sec:authorize="isAnonymous()">
+            <i class="bi bi-info-circle"></i> <a th:href="@{/register}">Regisztrálj</a> vagy <a th:href="@{/login}">jelentkezz be</a>, hogy lásd a beérkezett üzeneteket is.
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments :: lablec}"></footer>
+</body>
+</html>
