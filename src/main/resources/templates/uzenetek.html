@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Üzenetek')}"></head>
+<body>
+<nav th:replace="~{fragments :: menu('uzenetek')}"></nav>
+<main class="container">
+    <h2 class="oldal-cim"><i class="bi bi-chat-left-text"></i> Üzenetek</h2>
+    <p>A Kapcsolat menüben elküldött üzenetek, a legfrissebb elöl.</p>
+    <div th:if="${uzenetek.isEmpty()}" class="alert alert-info">Még nem érkezett üzenet.</div>
+    <div class="table-responsive" th:unless="${uzenetek.isEmpty()}">
+        <table class="table table-striped table-hover bg-white shadow-sm align-middle">
+            <thead class="table-primary">
+            <tr><th>Küldés ideje</th><th>Név</th><th>E-mail</th><th>Tárgy</th><th>Üzenet</th><th>Felhasználó</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="u : ${uzenetek}">
+                <td class="text-nowrap" th:text="${#temporals.format(u.kuldesIdeje, 'yyyy.MM.dd HH:mm:ss')}"></td>
+                <td th:text="${u.nev}"></td>
+                <td th:text="${u.email}"></td>
+                <td th:text="${u.targy}"></td>
+                <td th:text="${u.szoveg}" style="white-space: pre-wrap; max-width: 28rem;"></td>
+                <td><span th:text="${u.felhasznalo ?: 'vendég'}" class="badge bg-secondary"></span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<footer th:replace="~{fragments :: lablec}"></footer>
+</body>
+</html>
