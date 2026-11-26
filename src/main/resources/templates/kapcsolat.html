@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Kapcsolat')}"></head>
+<body>
+<nav th:replace="~{fragments :: menu('kapcsolat')}"></nav>
+<main class="container">
+    <h2 class="oldal-cim"><i class="bi bi-envelope"></i> Kapcsolat</h2>
+    <div class="row g-4">
+        <div class="col-lg-7">
+            <div th:if="${siker}" class="alert alert-success" th:text="${siker}">Siker</div>
+            <div class="card shadow-sm"><div class="card-body">
+                <!-- novalidate: a böngésző ne ellenőrizzen, a validáció a szerveren történik -->
+                <form th:action="@{/kapcsolat}" th:object="${urlap}" method="post" novalidate>
+                    <div class="mb-3">
+                        <label class="form-label">Név</label>
+                        <input type="text" th:field="*{nev}" class="form-control" th:classappend="${#fields.hasErrors('nev')} ? is-invalid">
+                        <div class="invalid-feedback" th:errors="*{nev}">hiba</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">E-mail cím</label>
+                        <input type="email" th:field="*{email}" class="form-control" th:classappend="${#fields.hasErrors('email')} ? is-invalid">
+                        <div class="invalid-feedback" th:errors="*{email}">hiba</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tárgy</label>
+                        <input type="text" th:field="*{targy}" class="form-control" th:classappend="${#fields.hasErrors('targy')} ? is-invalid">
+                        <div class="invalid-feedback" th:errors="*{targy}">hiba</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Üzenet</label>
+                        <textarea th:field="*{szoveg}" rows="5" class="form-control" th:classappend="${#fields.hasErrors('szoveg')} ? is-invalid"></textarea>
+                        <div class="invalid-feedback" th:errors="*{szoveg}">hiba</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i> Küldés</button>
+                </form>
+            </div></div>
+        </div>
+        <div class="col-lg-5">
+            <div class="card h-100 bg-primary text-white"><div class="card-body">
+                <h4>Net Pizzéria</h4>
+                <p><i class="bi bi-clock"></i> Éjjel-nappal nyitva</p>
+                <p><i class="bi bi-phone"></i> Rendelés csak SMS-ben, egy SMS-ben egyféle pizza</p>
+                <p><i class="bi bi-truck"></i> Kiszállítás a város egész területén</p>
+                <hr>
+                <p class="mb-0">Kérdésed, ötleted vagy panaszod van? Írj nekünk az űrlapon, az üzeneteket minden nap elolvassuk.</p>
+            </div></div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments :: lablec}"></footer>
+</body>
+</html>
