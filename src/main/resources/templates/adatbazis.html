@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Adatbázis')}"></head>
+<body>
+<nav th:replace="~{fragments :: menu('adatbazis')}"></nav>
+<main class="container">
+    <h2 class="oldal-cim"><i class="bi bi-database"></i> Adatbázis</h2>
+    <p>Az adatok a pizzéria adatbázisának három táblájából jönnek: <strong>kategoria</strong>, <strong>pizza</strong> és <strong>rendeles</strong>.</p>
+
+    <!-- 1. tábla: kategoria -->
+    <h4 class="mt-4">Árkategóriák</h4>
+    <div class="table-responsive">
+        <table class="table table-hover bg-white shadow-sm">
+            <thead class="table-primary"><tr><th>Kategória</th><th class="text-end">Ár</th><th class="text-end">Pizzák száma</th></tr></thead>
+            <tbody>
+            <tr th:each="k : ${kategoriak}">
+                <td class="text-capitalize" th:text="${k.nev}"></td>
+                <td class="text-end ar-cimke" th:text="${k.ar} + ' Ft'"></td>
+                <td class="text-end" th:text="${pizzaSzam.get(k.nev) ?: 0}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 2. tábla: pizza (a kategoria táblához kapcsolva) -->
+    <div class="d-flex flex-wrap justify-content-between align-items-end mt-5 mb-2 gap-2">
+        <h4 class="mb-0">Pizzakínálat <span class="badge bg-secondary" th:text="${pizzak.size()}">74</span></h4>
+        <form th:action="@{/adatbazis}" method="get" class="d-flex gap-2">
+            <select name="kategoria" class="form-select" onchange="this.form.submit()">
+                <option value="">Minden kategória</option>
+                <option th:each="k : ${kategoriak}" th:value="${k.nev}" th:text="${k.nev}" th:selected="${k.nev == valasztott}"></option>
+            </select>
+        </form>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover bg-white shadow-sm">
+            <thead class="table-primary"><tr><th>Pizza</th><th>Kategória</th><th class="text-end">Ár</th><th class="text-center">Vegetáriánus</th></tr></thead>
+            <tbody>
+            <tr th:each="p : ${pizzak}">
+                <td th:text="${p.nev}"></td>
+                <td class="text-capitalize" th:text="${p.kategoria.nev}"></td>
+                <td class="text-end" th:text="${p.kategoria.ar} + ' Ft'"></td>
+                <td class="text-center"><span th:if="${p.vegetarianus}" class="badge bg-success">🌱 igen</span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 3. tábla: rendeles (a pizza és a kategoria táblához kapcsolva) -->
+    <h4 class="mt-5">A legutóbbi 20 rendelés <small class="text-muted">(összesen <span th:text="${rendelesSzam}"></span>)</small></h4>
+    <div class="table-responsive">
+        <table class="table table-sm table-hover bg-white shadow-sm">
+            <thead class="table-primary"><tr><th>#</th><th>Pizza</th><th class="text-end">Darab</th><th>Felvétel</th><th>Kiszállítás</th><th class="text-end">Érték</th></tr></thead>
+            <tbody>
+            <tr th:each="r : ${rendelesek}">
+                <td th:text="${r.az}"></td>
+                <td th:text="${r.pizza.nev}"></td>
+                <td class="text-end" th:text="${r.darab}"></td>
+                <td th:text="${#temporals.format(r.felvetel, 'yyyy.MM.dd HH:mm')}"></td>
+                <td th:text="${#temporals.format(r.kiszallitas, 'yyyy.MM.dd HH:mm')}"></td>
+                <td class="text-end" th:text="${r.ertek} + ' Ft'"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<footer th:replace="~{fragments :: lablec}"></footer>
+</body>
+</html>
