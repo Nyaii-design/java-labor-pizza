@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('CRUD')}"></head>
+<body>
+<nav th:replace="~{fragments :: menu('crud')}"></nav>
+<main class="container">
+    <div class="d-flex justify-content-between align-items-center oldal-cim">
+        <h2 class="mb-0"><i class="bi bi-pencil-square"></i> CRUD – Pizzák kezelése</h2>
+        <a th:href="@{/crud/uj}" class="btn btn-success"><i class="bi bi-plus-lg"></i> Új pizza</a>
+    </div>
+    <div th:if="${uzenet}" class="alert alert-success" th:text="${uzenet}"></div>
+    <div th:if="${hiba}" class="alert alert-danger" th:text="${hiba}"></div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover bg-white shadow-sm align-middle">
+            <thead class="table-primary">
+            <tr><th>Név</th><th>Kategória</th><th class="text-end">Ár</th><th class="text-center">Vegetáriánus</th><th class="text-end">Műveletek</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${pizzak}">
+                <td th:text="${p.nev}"></td>
+                <td class="text-capitalize" th:text="${p.kategoria.nev}"></td>
+                <td class="text-end" th:text="${p.kategoria.ar} + ' Ft'"></td>
+                <td class="text-center" th:text="${p.vegetarianus} ? 'igen' : 'nem'"></td>
+                <td class="text-end text-nowrap">
+                    <a th:href="@{/crud/modosit(nev=${p.nev})}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i> Módosítás</a>
+                    <form th:action="@{/crud/torol}" method="post" class="d-inline"
+                          onsubmit="return confirm('Biztosan törlöd ezt a pizzát? A hozzá tartozó rendelések is törlődnek.');">
+                        <input type="hidden" name="nev" th:value="${p.nev}">
+                        <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i> Törlés</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<footer th:replace="~{fragments :: lablec}"></footer>
+</body>
+</html>

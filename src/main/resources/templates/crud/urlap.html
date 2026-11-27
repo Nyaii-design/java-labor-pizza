@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head(${uj} ? 'Új pizza' : 'Pizza módosítása')}"></head>
+<body>
+<nav th:replace="~{fragments :: menu('crud')}"></nav>
+<main class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <h2 class="oldal-cim" th:text="${uj} ? 'Új pizza felvétele' : 'Pizza módosítása'">Pizza</h2>
+            <div class="card shadow-sm"><div class="card-body">
+                <form th:action="${uj} ? @{/crud/uj} : @{/crud/modosit}" th:object="${urlap}" method="post" novalidate>
+                    <div class="mb-3">
+                        <label class="form-label">Név</label>
+                        <input type="text" th:field="*{nev}" class="form-control" th:readonly="${!uj}"
+                               th:classappend="${#fields.hasErrors('nev')} ? is-invalid">
+                        <div class="invalid-feedback" th:errors="*{nev}">hiba</div>
+                        <div class="form-text" th:unless="${uj}">A név a tábla kulcsa, ezért nem módosítható.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Kategória</label>
+                        <select th:field="*{kategoriaNev}" class="form-select" th:classappend="${#fields.hasErrors('kategoriaNev')} ? is-invalid">
+                            <option value="">-- válassz --</option>
+                            <option th:each="k : ${kategoriak}" th:value="${k.nev}" th:text="${k.nev} + ' (' + ${k.ar} + ' Ft)'"></option>
+                        </select>
+                        <div class="invalid-feedback" th:errors="*{kategoriaNev}">hiba</div>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input type="checkbox" th:field="*{vegetarianus}" class="form-check-input" id="veg">
+                        <label class="form-check-label" for="veg">Vegetáriánus</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Mentés</button>
+                    <a th:href="@{/crud}" class="btn btn-secondary">Mégse</a>
+                </form>
+            </div></div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments :: lablec}"></footer>
+</body>
+</html>
