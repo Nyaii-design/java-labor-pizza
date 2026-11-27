@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Diagram')}"></head>
+<body>
+<nav th:replace="~{fragments :: menu('diagram')}"></nav>
+<main class="container">
+    <h2 class="oldal-cim"><i class="bi bi-bar-chart"></i> Diagramok</h2>
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card shadow-sm h-100"><div class="card-body">
+                <h5 class="card-title">A 10 legnépszerűbb pizza (eladott darab)</h5>
+                <canvas id="topPizzak"></canvas>
+            </div></div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card shadow-sm h-100"><div class="card-body">
+                <h5 class="card-title">Eladott pizzák kategóriánként</h5>
+                <canvas id="kategoriak"></canvas>
+            </div></div>
+        </div>
+        <div class="col-12">
+            <div class="card shadow-sm"><div class="card-body">
+                <h5 class="card-title">Rendelések száma havonta</h5>
+                <canvas id="havi" height="90"></canvas>
+            </div></div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments :: lablec}"></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script th:inline="javascript">
+    const szinek = ['#e95420', '#772953', '#f39c12', '#38b44a', '#17a2b8', '#b22222', '#6c757d', '#efb73e', '#df382c', '#aea79f'];
+
+    new Chart(document.getElementById('topPizzak'), {
+        type: 'bar',
+        data: {
+            labels: /*[[${topNevek}]]*/ [],
+            datasets: [{ label: 'Eladott darab', data: /*[[${topDarab}]]*/ [], backgroundColor: '#e95420' }]
+        },
+        options: { indexAxis: 'y', plugins: { legend: { display: false } } }
+    });
+
+    new Chart(document.getElementById('kategoriak'), {
+        type: 'doughnut',
+        data: {
+            labels: /*[[${katNevek}]]*/ [],
+            datasets: [{ data: /*[[${katDarab}]]*/ [], backgroundColor: szinek }]
+        }
+    });
+
+    new Chart(document.getElementById('havi'), {
+        type: 'line',
+        data: {
+            labels: /*[[${honapok}]]*/ [],
+            datasets: [{ label: 'Rendelések', data: /*[[${haviDarab}]]*/ [], borderColor: '#772953',
+                         backgroundColor: 'rgba(119,41,83,.15)', fill: true, tension: .25 }]
+        },
+        options: { plugins: { legend: { display: false } } }
+    });
+</script>
+</body>
+</html>
